@@ -1,0 +1,17 @@
+$kind: http-request
+name: http://localhost:8080/api/employees
+description: ""
+url: http://localhost:8080/api/employees
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"firstName\": \"Guruvishnu\",\r
+
+    \    \"lastName\": \"Kajagar\",\r
+
+    \    \"email\": \"guru@gmail.com\"\r
+
+    }\r\n"
+order: 4000
