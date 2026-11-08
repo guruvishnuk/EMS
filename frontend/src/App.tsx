@@ -1,0 +1,9 @@
+import { EmployeeList } from "./components/EmployeeList";
+
+export default function App() {
+  return (
+     <main className="min-h-screen bg-background text-foreground p-8">
+        <EmployeeList/>
+     </main>
+  )
+}
