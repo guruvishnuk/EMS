@@ -4,6 +4,7 @@ import {
   createEmployee,
   getEmployees,
   updateEmployee,
+  deleteEmployee,
 } from "@/services/employeeServices";
 
 export function EmployeeList() {
@@ -72,6 +73,22 @@ export function EmployeeList() {
     }
   };
 
+  const handleDeleteEmployee = async (id?: number) => {
+    if (!id) return;
+    const confirmed = window.confirm("Are you sure you want to delete this employee?");
+    if (!confirmed) return;
+    try {
+      await deleteEmployee(id);
+      setEmployees((prevEmployees) =>
+        prevEmployees.filter((emp) => emp.id !== id),
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+    }
+  };
+
   return (
     <div>
       <h2>Employee List</h2>
@@ -87,7 +104,7 @@ export function EmployeeList() {
       <h1>{employees.length} Employees</h1>
       {employees.map((employee) => {
         return (
-          <div key={employee.id}>
+          <div key={employee.id} className="border p-2 m-2 rounded">
             <h3 className="bg-yellow-200 m-1 p-2">
               Employee Name : {employee.firstName.toLocaleUpperCase()}{" "}
               {employee.lastName.toLocaleUpperCase()}
@@ -95,15 +112,23 @@ export function EmployeeList() {
             <p className=" bg-blue-200 m-1 p-2">
               Employee Email : {employee.email.toLocaleLowerCase()}
             </p>
-            <button
-              className="bg-yellow-500 text-white p-2 rounded"
-              onClick={() => {
-                setEditingEmployee(employee);
-                setShowModal(true);
-              }}
-            >
-              Edit Employee
-            </button>
+            <div className="mt-2 flex gap-2">
+              <button
+                className="bg-yellow-500 text-white p-2 rounded"
+                onClick={() => {
+                  setEditingEmployee(employee);
+                  setShowModal(true);
+                }}
+              >
+                Edit Employee
+              </button>
+              <button
+                className="bg-red-500 text-white p-2 rounded"
+                onClick={() => handleDeleteEmployee(employee.id)}
+              >
+                Delete Employee
+              </button>
+            </div>
           </div>
         );
       })}
